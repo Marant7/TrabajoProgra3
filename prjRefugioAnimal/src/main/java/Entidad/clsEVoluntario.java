@@ -4,6 +4,7 @@
  */
 package Entidad;
 
+import java.sql.Time;
 import java.time.LocalDate;
 
 /**
@@ -15,7 +16,10 @@ public class clsEVoluntario {
     private int idVoluntario;
     private LocalDate  fecha;
     private String nombres;
-    private String apellidos;
+    private String apellidoMaterno;
+    private String apellidoPaterno;
+    private Time hora_inicio;
+    private Time hora_fin;
     private String direccion;
     //private int idDistrito;
     public static enum Genero {
@@ -34,16 +38,15 @@ public class clsEVoluntario {
     }
     private Estado estado;
     private String dni;
-    
 
-    public clsEVoluntario() {
-    }
-
-    public clsEVoluntario(int idVoluntario, LocalDate fecha, String nombres, String apellidos, String direccion, Genero genero, String ocupacion, String edad, String clave, Estado estado, String dni) {
+    public clsEVoluntario(int idVoluntario, LocalDate fecha, String nombres, String apellidoMaterno, String apellidoPaterno, Time hora_inicio, Time hora_fin, String direccion, Genero genero, String ocupacion, String edad, String clave, Estado estado, String dni) {
         this.idVoluntario = idVoluntario;
         this.fecha = fecha;
         this.nombres = nombres;
-        this.apellidos = apellidos;
+        this.apellidoMaterno = apellidoMaterno;
+        this.apellidoPaterno = apellidoPaterno;
+        this.hora_inicio = hora_inicio;
+        this.hora_fin = hora_fin;
         this.direccion = direccion;
         this.genero = genero;
         this.ocupacion = ocupacion;
@@ -52,6 +55,44 @@ public class clsEVoluntario {
         this.estado = estado;
         this.dni = dni;
     }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
+    }
+
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public Time getHora_inicio() {
+        return hora_inicio;
+    }
+
+    public void setHora_inicio(Time hora_inicio) {
+        this.hora_inicio = hora_inicio;
+    }
+
+    public Time getHora_fin() {
+        return hora_fin;
+    }
+
+    public void setHora_fin(Time hora_fin) {
+        this.hora_fin = hora_fin;
+    }
+    
+
+    public clsEVoluntario() {
+    }
+
+   
 
     public int getIdVoluntario() {
         return idVoluntario;
@@ -77,13 +118,7 @@ public class clsEVoluntario {
         this.nombres = nombres;
     }
 
-    public String getApellidos() {
-        return apellidos;
-    }
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
 
     public String getDireccion() {
         return direccion;

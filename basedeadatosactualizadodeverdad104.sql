@@ -49,11 +49,12 @@ CREATE TABLE IF NOT EXISTS `adoptante` (
   PRIMARY KEY (`idAdoptante`),
   KEY `idDistrito` (`idDistrito`),
   CONSTRAINT `adoptante_ibfk_1` FOREIGN KEY (`idDistrito`) REFERENCES `distrito` (`idDistrito`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla bdrefugio.adoptante: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla bdrefugio.adoptante: ~2 rows (aproximadamente)
 INSERT INTO `adoptante` (`idAdoptante`, `nombres`, `apellidopaterno`, `apellidomaterno`, `fecha`, `idDistrito`, `genero`, `ocupacion`, `celular`, `edad`) VALUES
-	(2, 'ELARD RICARDO', 'RODRIGUEZ', 'MARCA', '2024-04-20', 1, 'masculino', 'ewqewq', 'null', '23');
+	(2, 'ELARD RICARDO', 'RODRIGUEZ', 'MARCA', '2024-04-20', 1, 'masculino', 'ewqewq', 'null', '23'),
+	(3, 'ELARD ALBERTO', 'ESCALA', 'SANCHEZ BARRETO', '2024-04-21', 1, 'masculino', 'queee', 'null', '32');
 
 -- Volcando estructura para tabla bdrefugio.animal
 CREATE TABLE IF NOT EXISTS `animal` (
@@ -64,6 +65,9 @@ CREATE TABLE IF NOT EXISTS `animal` (
   `genero` enum('macho','hembra') DEFAULT NULL,
   `tipo` enum('perro','gato') DEFAULT NULL,
   `foto` varchar(255) DEFAULT NULL,
+  `raza` varchar(50) DEFAULT NULL,
+  `edad` varchar(50) DEFAULT NULL,
+  `historia` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`idAnimal`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -78,7 +82,8 @@ CREATE TABLE IF NOT EXISTS `cargo` (
 
 -- Volcando datos para la tabla bdrefugio.cargo: ~1 rows (aproximadamente)
 INSERT INTO `cargo` (`idCargo`, `Nombre`) VALUES
-	(1, 'Admin');
+	(1, 'Admin'),
+	(2, 'Asistente');
 
 -- Volcando estructura para tabla bdrefugio.distrito
 CREATE TABLE IF NOT EXISTS `distrito` (
@@ -94,11 +99,14 @@ INSERT INTO `distrito` (`idDistrito`, `nombre`) VALUES
 -- Volcando estructura para tabla bdrefugio.evidencia
 CREATE TABLE IF NOT EXISTS `evidencia` (
   `idEvidencia` int(11) NOT NULL AUTO_INCREMENT,
-  `Visitadomiciliaria` enum('si','no') DEFAULT 'no',
+  `nombre` enum('si','no') DEFAULT 'no',
   PRIMARY KEY (`idEvidencia`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla bdrefugio.evidencia: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla bdrefugio.evidencia: ~2 rows (aproximadamente)
+INSERT INTO `evidencia` (`idEvidencia`, `nombre`) VALUES
+	(1, 'no'),
+	(2, 'si');
 
 -- Volcando estructura para tabla bdrefugio.formularioadopcion
 CREATE TABLE IF NOT EXISTS `formularioadopcion` (
@@ -114,6 +122,7 @@ CREATE TABLE IF NOT EXISTS `formularioadopcion` (
   `p4` varchar(255) DEFAULT NULL,
   `p5` varchar(255) DEFAULT NULL,
   `estado` enum('aprobado','pendiente','rechazado') DEFAULT 'pendiente',
+  `idUsuarioRegistro` int(11) DEFAULT NULL,
   PRIMARY KEY (`idFormularioAdopcion`),
   KEY `idVoluntario` (`idVoluntario`),
   KEY `idAdministrador` (`idAdministrador`),
@@ -132,7 +141,8 @@ CREATE TABLE IF NOT EXISTS `voluntario` (
   `idVoluntario` int(11) NOT NULL AUTO_INCREMENT,
   `fecha` date NOT NULL,
   `nombres` varchar(50) NOT NULL,
-  `apellidos` varchar(50) NOT NULL,
+  `apellidopaterno` varchar(100) NOT NULL,
+  `apellidomaterno` varchar(100) NOT NULL,
   `direccion` varchar(100) NOT NULL,
   `idDistrito` int(11) NOT NULL,
   `genero` enum('masculino','femenino') DEFAULT NULL,
@@ -142,14 +152,18 @@ CREATE TABLE IF NOT EXISTS `voluntario` (
   `idCargo` int(11) NOT NULL DEFAULT 2,
   `estado` enum('activo','inactivo') DEFAULT 'activo',
   `DNI` varchar(12) DEFAULT NULL,
+  `hora_inicio` time DEFAULT NULL,
+  `hora_fin` time DEFAULT NULL,
   PRIMARY KEY (`idVoluntario`),
   KEY `idCargo` (`idCargo`),
   KEY `idDistrito` (`idDistrito`),
   CONSTRAINT `voluntario_ibfk_1` FOREIGN KEY (`idCargo`) REFERENCES `cargo` (`idCargo`),
   CONSTRAINT `voluntario_ibfk_2` FOREIGN KEY (`idDistrito`) REFERENCES `distrito` (`idDistrito`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla bdrefugio.voluntario: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla bdrefugio.voluntario: ~1 rows (aproximadamente)
+INSERT INTO `voluntario` (`idVoluntario`, `fecha`, `nombres`, `apellidopaterno`, `apellidomaterno`, `direccion`, `idDistrito`, `genero`, `ocupacion`, `edad`, `clave`, `idCargo`, `estado`, `DNI`, `hora_inicio`, `hora_fin`) VALUES
+	(4, '2024-04-21', 'ELARD RICARDO', 'RODRIGUEZ', 'MARCA', 'dsadasdsa', 1, 'masculino', 'ewewq', '32', '321', 2, 'activo', '04743075', '13:00:00', '14:00:00');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

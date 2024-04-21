@@ -26,11 +26,11 @@ public class clsNVoluntario {
     clsEVoluntario A = new clsEVoluntario();
     
     public boolean mtdGuardarVoluntario(clsEVoluntario objVo, clsEDistrito objDi) {
-        String SQL ="INSERT INTO voluntario(fecha,nombres,apellidos,direccion,idDistrito,genero,ocupacion,"
-               + "edad,clave,estado,dni )"
-        +"VALUES ('"+objVo.getFecha()+"','"+objVo.getNombres()+"','"+objVo.getApellidos()+
+        String SQL ="INSERT INTO voluntario(fecha,nombres,apellidopaterno,apellidomaterno,direccion,idDistrito,genero,ocupacion,"
+               + "edad,clave,estado,dni,hora_inicio,hora_fin )"
+        +"VALUES ('"+objVo.getFecha()+"','"+objVo.getNombres()+"','"+objVo.getApellidoPaterno()+"','"+objVo.getApellidoMaterno()+
         "','"+objVo.getDireccion()+"','"+objDi.getIddistrito()+"','"+objVo.getGenero()+"','"+objVo.getOcupacion()+
-               "','"+objVo.getEdad()+"','"+objVo.getClave()+"','"+objVo.getEstado()+"','"+objVo.getDni()+"')";
+               "','"+objVo.getEdad()+"','"+objVo.getClave()+"','"+objVo.getEstado()+"','"+objVo.getDni()+"','"+objVo.getHora_inicio()+"','"+objVo.getHora_fin()+"')";
         
 
         System.out.println(SQL);
@@ -46,19 +46,30 @@ public class clsNVoluntario {
         }
     }    
 
-    
-    public ResultSet mtdValidarVoluntario(clsEVoluntario objEv) {
-        ResultSet rs = null;
-        String SQL = "SELECT * FROM voluntario " +
-                     "WHERE DNI = '" + objEv.getDni()+
-                     "' AND clave = '" + objEv.getClave()+ "';";
-        try {
-            con = (Connection) cn.getConnection();
-            st = con.createStatement();
-            rs = st.executeQuery(SQL);
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.toString());
+    //cambiooo
+    public String[] mtdValidarVoluntario(clsEVoluntario objEv) {
+    String[] datosVoluntario = new String[3]; // Para almacenar nombres, hora_inicio, y hora_fin
+    String SQL = "SELECT nombres, hora_inicio, hora_fin FROM voluntario WHERE DNI = ? AND clave = ?;";
+
+    try (Connection con = cn.getConnection();  // Utilizando try-with-resources para garantizar el cierre adecuado de la conexión
+         PreparedStatement pstmt = con.prepareStatement(SQL)) {
+
+        // Establecer los parámetros para la consulta preparada
+        pstmt.setString(1, objEv.getDni());
+        pstmt.setString(2, objEv.getClave());
+
+        try (ResultSet rs = pstmt.executeQuery()) { // Ejecutar la consulta y manejar el ResultSet
+            if (rs.next()) { // Si se encontró el voluntario
+                datosVoluntario[0] = rs.getString("nombres");
+                datosVoluntario[1] = rs.getString("hora_inicio");
+                datosVoluntario[2] = rs.getString("hora_fin");
+            }
         }
-        return rs;
+    } catch (SQLException e) {
+        // Manejar cualquier excepción SQL
+        System.out.println("Error en mtdValidarVoluntario: " + e.getMessage());
     }
+
+    return datosVoluntario; // Devolver los datos del voluntario
+}
 }

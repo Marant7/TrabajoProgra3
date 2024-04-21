@@ -10,6 +10,7 @@ import Entidad.clsEVoluntario;
 import Negocio.clsNVoluntario;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import javax.swing.JOptionPane;
 
 /**
@@ -131,16 +132,15 @@ public class FrmLogin extends javax.swing.JFrame {
     private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsuarioActionPerformed
-
+//cambioo
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-    clsEAdmin objAd = new clsEAdmin();
+     clsEAdmin objAd = new clsEAdmin();
     objAd.setDni(txtUsuario.getText());
-    objAd.setContraseña(txtContraseña.getText()); 
+    objAd.setContraseña(txtContraseña.getText());
 
     clsNAdmin objNA = new clsNAdmin();
     clsNVoluntario objNV = new clsNVoluntario();
     ResultSet rsAdmin = objNA.mtdValidarAdministrador(objAd);
-    ResultSet rsVoluntario = null;
 
     try {
         if (rsAdmin.next()) {
@@ -150,20 +150,33 @@ public class FrmLogin extends javax.swing.JFrame {
         } else {
             clsEVoluntario objEv = new clsEVoluntario();
             objEv.setDni(txtUsuario.getText());
-            objEv.setClave(txtContraseña.getText()); 
-            rsVoluntario = objNV.mtdValidarVoluntario(objEv);
-            if (rsVoluntario.next()) {
-                FrmAsistente frm = new FrmAsistente();
-                frm.setVisible(true);
-                this.dispose();
+            objEv.setClave(txtContraseña.getText());
+
+            String[] datosVoluntario = objNV.mtdValidarVoluntario(objEv);
+
+            if (datosVoluntario[0] != null) { // Si el nombre no es null, el usuario existe
+                LocalTime horaActual = LocalTime.now();
+                LocalTime horaInicioVoluntario = LocalTime.parse(datosVoluntario[1]);
+                LocalTime horaFinVoluntario = LocalTime.parse(datosVoluntario[2]);
+
+                if (horaActual.isAfter(horaInicioVoluntario) && horaActual.isBefore(horaFinVoluntario)) {
+                    FrmAsistente frm = new FrmAsistente();
+                    frm.setNombreVoluntario(datosVoluntario[0]);
+                    frm.setVisible(true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Estás fuera del horario permitido.");
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Credenciales incorrectas");
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.");
             }
         }
     } catch (SQLException e) {
+        e.printStackTrace(); // Manejo de excepción: imprime el error en la consola
     }
     }//GEN-LAST:event_btnEntrarActionPerformed
 
+    
     private void txtContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseñaActionPerformed
         // TODO add your handling code here:
         

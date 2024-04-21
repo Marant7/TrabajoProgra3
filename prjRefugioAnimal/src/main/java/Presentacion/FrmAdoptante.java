@@ -73,6 +73,7 @@ public class FrmAdoptante extends javax.swing.JFrame {
         txtDni = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         txtApellidoMaterno = new javax.swing.JTextField();
+        btnSiguiente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -137,6 +138,13 @@ public class FrmAdoptante extends javax.swing.JFrame {
             }
         });
 
+        btnSiguiente.setText("Siguiente");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -181,10 +189,7 @@ public class FrmAdoptante extends javax.swing.JFrame {
                                                 .addGap(8, 8, 8)
                                                 .addComponent(jLabel2)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(cmbGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(157, 157, 157)
-                            .addComponent(btnGuardar)))
+                                        .addComponent(cmbGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(100, 100, 100)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -201,6 +206,12 @@ public class FrmAdoptante extends javax.swing.JFrame {
                     .addComponent(btnButton, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtDni, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(157, 157, 157)
+                .addComponent(btnGuardar)
+                .addGap(62, 62, 62)
+                .addComponent(btnSiguiente)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,7 +261,9 @@ public class FrmAdoptante extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(cmbDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(56, 56, 56)
-                .addComponent(btnGuardar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar)
+                    .addComponent(btnSiguiente))
                 .addGap(86, 86, 86))
         );
 
@@ -322,6 +335,12 @@ public class FrmAdoptante extends javax.swing.JFrame {
     private void txtApellidoMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoMaternoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtApellidoMaternoActionPerformed
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        // TODO add your handling code here:
+        FrmFormulario frmformulario = new FrmFormulario();
+        frmformulario.setVisible(true);
+    }//GEN-LAST:event_btnSiguienteActionPerformed
 
     
     private void buscarPorDni(String dni) {
@@ -523,6 +542,7 @@ public class FrmAdoptante extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnButton;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnSiguiente;
     private javax.swing.JComboBox<String> cmbDistrito;
     private javax.swing.JComboBox<String> cmbGenero;
     private javax.swing.JLabel jLabel1;
