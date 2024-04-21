@@ -84,6 +84,8 @@ public class FrmRegistroVoluntario extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("ADOPTANTE REIGSTOR");
+
         cmbGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "femenino", "masculino" }));
 
         jLabel12.setText("dni");
