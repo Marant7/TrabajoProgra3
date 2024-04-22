@@ -48,8 +48,8 @@ public class clsNVoluntario {
 
     //cambiooo
     public String[] mtdValidarVoluntario(clsEVoluntario objEv) {
-    String[] datosVoluntario = new String[3]; // Para almacenar nombres, hora_inicio, y hora_fin
-    String SQL = "SELECT nombres, hora_inicio, hora_fin FROM voluntario WHERE DNI = ? AND clave = ?;";
+    String[] datosVoluntario = new String[4]; // Para almacenar nombres, hora_inicio, y hora_fin
+    String SQL = "SELECT nombres, hora_inicio, hora_fin, idVoluntario FROM voluntario WHERE DNI = ? AND clave = ?;";
 
     try (Connection con = cn.getConnection();  // Utilizando try-with-resources para garantizar el cierre adecuado de la conexión
          PreparedStatement pstmt = con.prepareStatement(SQL)) {
@@ -63,6 +63,14 @@ public class clsNVoluntario {
                 datosVoluntario[0] = rs.getString("nombres");
                 datosVoluntario[1] = rs.getString("hora_inicio");
                 datosVoluntario[2] = rs.getString("hora_fin");
+                // Obtenemos el idVoluntario de la base de datos
+                int idVoluntario = rs.getInt("idVoluntario");
+
+                // Convertimos el idVoluntario a String
+                String idVoluntarioStr = String.valueOf(idVoluntario);
+
+                // Asignamos el idVoluntario convertido al índice 3 del arreglo datosVoluntario
+                datosVoluntario[3] = idVoluntarioStr;
             }
         }
     } catch (SQLException e) {
@@ -72,4 +80,29 @@ public class clsNVoluntario {
 
     return datosVoluntario; // Devolver los datos del voluntario
 }
+
+    public int obtenerIdIngresante(String DNI) {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int idVoluntario = -1; // Inicializamos el ID con un valor que indique que no se encontró ningún voluntario
+
+        String SQL = "SELECT idVoluntario FROM voluntario WHERE DNI = ?;";
+
+        try (Connection con = cn.getConnection();  // Utilizando try-with-resources para garantizar el cierre adecuado de la conexión
+             PreparedStatement pstmt = con.prepareStatement(SQL)) {
+
+            // Establecer el parámetro para la consulta preparada
+            pstmt.setString(1, DNI);
+
+            try (ResultSet rs = pstmt.executeQuery()) { // Ejecutar la consulta y manejar el ResultSet
+                if (rs.next()) { // Si se encontró un voluntario con el DNI proporcionado
+                    idVoluntario = rs.getInt("idVoluntario"); // Obtener el ID del voluntario
+                }
+            }
+        } catch (SQLException e) {
+            // Manejar cualquier excepción SQL
+            System.out.println("Error al obtener el ID del voluntario por DNI: " + e.getMessage());
+        }
+
+        return idVoluntario; // Devolver el ID del voluntario
+        }
 }

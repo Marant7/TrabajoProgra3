@@ -46,5 +46,33 @@ public class clsNAdoptante {
     
     
     }
+
+    public String obtenerIdAdoptante() {
+            String idAdoptante = "-1"; // Valor por defecto si no se encuentra ningún adoptante
+    String SQL = "SELECT idAdoptante FROM adoptante ORDER BY idAdoptante DESC LIMIT 1";
+
+    try {
+        con = cn.getConnection();
+        ps = con.prepareStatement(SQL);
+        rs = ps.executeQuery();
+
+        if(rs.next()) {
+            idAdoptante = String.valueOf(rs.getInt("idAdoptante"));
+        }
+
+        return idAdoptante;
+    } catch (SQLException e) {
+        System.out.println("Error: " + e.toString());
+        return idAdoptante;
+    } finally {
+        try {
+            if(rs != null) rs.close();
+            if(ps != null) ps.close();
+            if(con != null) con.close();
+        } catch (SQLException e) {
+            System.out.println("Error al cerrar conexiones: " + e.toString());
+        }
+    }
+    }
     
 }

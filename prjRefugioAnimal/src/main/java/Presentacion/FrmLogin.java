@@ -100,7 +100,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addComponent(btnEntrar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSalir)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(23, 166, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,14 +134,14 @@ public class FrmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsuarioActionPerformed
 //cambioo
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-     clsEAdmin objAd = new clsEAdmin();
+    clsEAdmin objAd = new clsEAdmin();
     objAd.setDni(txtUsuario.getText());
     objAd.setContraseña(txtContraseña.getText());
-
     clsNAdmin objNA = new clsNAdmin();
     clsNVoluntario objNV = new clsNVoluntario();
     ResultSet rsAdmin = objNA.mtdValidarAdministrador(objAd);
 
+    
     try {
         if (rsAdmin.next()) {
             FrmAdmin frm = new FrmAdmin();
@@ -159,7 +159,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 LocalTime horaInicioVoluntario = LocalTime.parse(datosVoluntario[1]);
                 LocalTime horaFinVoluntario = LocalTime.parse(datosVoluntario[2]);
 
-                if (horaActual.isAfter(horaInicioVoluntario) && horaActual.isBefore(horaFinVoluntario)) {
+                if (horaActual.isAfter(horaInicioVoluntario) && horaActual.isBefore(horaFinVoluntario)) {                   
                     FrmAsistente frm = new FrmAsistente();
                     frm.setNombreVoluntario(datosVoluntario[0]);
                     frm.setVisible(true);
@@ -174,8 +174,19 @@ public class FrmLogin extends javax.swing.JFrame {
     } catch (SQLException e) {
         e.printStackTrace(); // Manejo de excepción: imprime el error en la consola
     }
+    iniciar();
+ 
     }//GEN-LAST:event_btnEntrarActionPerformed
 
+    private void iniciar(){
+    String DNI = txtUsuario.getText();
+    clsNVoluntario objNV = new clsNVoluntario();
+    int ID = objNV.obtenerIdIngresante(DNI);
+    // Crear una instancia del formulario FrmFormulario
+    FrmFormulario frm3 = new FrmFormulario();
+    // Configurar el ID en el formulario FrmFormulario
+    frm3.setId(ID);
+    }
     
     private void txtContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseñaActionPerformed
         // TODO add your handling code here:
